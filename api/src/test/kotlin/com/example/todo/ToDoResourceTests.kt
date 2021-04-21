@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest
-class HelloWorldControllerTests(@Autowired val mockMvc: MockMvc) {
+class ToDoResourceTests(@Autowired val mockMvc: MockMvc) {
     @Test
-    fun `Assert root returns hello world correctly`() {
+    fun `Assert root returns list of to dos`() {
         mockMvc.perform(get("/"))
             .andExpect(status().isOk)
-            .andExpect(content().string("Hello, world!"))
+            .andExpect(jsonPath("$").isArray)
+            .andExpect(jsonPath("$[0].id").value(1))
     }
 }
