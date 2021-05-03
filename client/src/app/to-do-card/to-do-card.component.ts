@@ -8,13 +8,17 @@ import { ToDo } from '../to-do';
 })
 export class ToDoCardComponent {
   @Input() toDo: ToDo = { name: '', description: '', done: false };
-  @Output() edit = new EventEmitter();
+  @Input() editable: boolean = false;
+  @Input() active: boolean = false;
 
-  toggleDone() {
-    this.toDo.done = !this.toDo.done;
-  }
+  @Output() edit = new EventEmitter();
+  @Output() save = new EventEmitter<ToDo>();
 
   onEdit() {
     this.edit.emit(null);
+  }
+
+  onSave() {
+    this.save.emit(this.toDo);
   }
 }

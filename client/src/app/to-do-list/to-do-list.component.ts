@@ -9,10 +9,21 @@ import { ToDoService } from '../to-do.service';
 })
 export class ToDoListComponent implements OnInit {
   toDos: ToDo[] = [];
+  activeToDoIndex?: number;
 
   constructor(private toDoService: ToDoService) {}
 
   ngOnInit(): void {
     this.toDos = this.toDoService.getToDos();
+  }
+
+  onEdit(index: number): void {
+    console.log(`Editing ${index}`);
+    this.activeToDoIndex = index;
+  }
+
+  onSave(toDo: ToDo): void {
+    console.log(`Saving ${toDo.id}`);
+    this.activeToDoIndex = undefined;
   }
 }

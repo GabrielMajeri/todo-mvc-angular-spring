@@ -1,1 +1,8 @@
-<app-to-do-card *ngFor="let toDo of toDos" [toDo]="toDo"></app-to-do-card>
+<app-to-do-card
+  *ngFor="let toDo of toDos; index as i"
+  [toDo]="toDo"
+  [editable]="activeToDoIndex === undefined"
+  [active]="activeToDoIndex === i"
+  (edit)="onEdit(i)"
+  (save)="onSave($event)"
+></app-to-do-card>

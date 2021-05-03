@@ -1,16 +1,20 @@
-<mat-card (click)="toggleDone()">
+<mat-card>
   <mat-card-title>
-    <mat-checkbox [(ngModel)]="toDo.done" (click)="$event.stopPropagation()">
+    <mat-checkbox [(ngModel)]="toDo.done" [disabled]="!editable">
       {{ toDo.name }}
     </mat-checkbox>
   </mat-card-title>
   <mat-card-content>{{ toDo.description }}</mat-card-content>
   <button
+    *ngIf="editable"
     mat-icon-button
     aria-label="Edit to do"
     class="edit"
-    (click)="onEdit(); $event.stopPropagation()"
+    (click)="onEdit()"
   >
     <mat-icon aria-hidden="false">edit</mat-icon>
+  </button>
+  <button *ngIf="active" mat-raised-button color="primary" (click)="onSave()">
+    Save
   </button>
 </mat-card>
