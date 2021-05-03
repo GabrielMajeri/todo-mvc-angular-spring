@@ -1,4 +1,16 @@
-<mat-card>
-  <mat-card-title>{{ toDo.name }}</mat-card-title>
+<mat-card (click)="toggleDone()">
+  <mat-card-title>
+    <mat-checkbox [(ngModel)]="toDo.done" (click)="$event.stopPropagation()">
+      {{ toDo.name }}
+    </mat-checkbox>
+  </mat-card-title>
   <mat-card-content>{{ toDo.description }}</mat-card-content>
+  <button
+    mat-icon-button
+    aria-label="Edit to do"
+    class="edit"
+    (click)="onEdit(); $event.stopPropagation()"
+  >
+    <mat-icon aria-hidden="false">edit</mat-icon>
+  </button>
 </mat-card>

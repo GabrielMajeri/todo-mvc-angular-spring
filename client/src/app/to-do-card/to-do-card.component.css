@@ -1,0 +1,9 @@
+mat-card {
+  position: relative;
+}
+
+button.edit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
