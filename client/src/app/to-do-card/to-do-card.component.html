@@ -1,10 +1,12 @@
-<mat-card>
+<mat-card [class.mat-elevation-z8]>
   <mat-card-title>
     <mat-checkbox [(ngModel)]="toDo.done" [disabled]="!editable">
       {{ toDo.name }}
     </mat-checkbox>
   </mat-card-title>
-  <mat-card-content>{{ toDo.description }}</mat-card-content>
+  <mat-card-content *ngIf="toDo.description">
+    {{ toDo.description }}
+  </mat-card-content>
   <button
     *ngIf="editable"
     mat-icon-button

@@ -2,3 +2,9 @@
   text-align: center;
   margin: 1rem 0 1.5rem;
 }
+
+app-to-do-list {
+  display: block;
+  max-width: 540px;
+  margin: auto;
+}

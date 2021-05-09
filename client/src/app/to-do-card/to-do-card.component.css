@@ -1,5 +1,16 @@
 mat-card {
   position: relative;
+
+  margin-bottom: 1rem;
+}
+
+mat-card-title {
+  margin-bottom: 0;
+}
+
+mat-card-content {
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 button.edit {
