@@ -1,12 +1,38 @@
-<mat-card [class.mat-elevation-z8]>
-  <mat-card-title>
-    <mat-checkbox [(ngModel)]="toDo.done" [disabled]="!editable">
-      {{ toDo.name }}
-    </mat-checkbox>
-  </mat-card-title>
-  <mat-card-content *ngIf="toDo.description">
-    {{ toDo.description }}
-  </mat-card-content>
+<mat-card [class.mat-elevation-z8] [class.active]="active">
+  <!-- Read-only display interface -->
+  <ng-template [ngIf]="!active" [ngIfElse]="editing">
+    <mat-card-title>
+      <mat-checkbox [(ngModel)]="toDo.done" [disabled]="!editable">
+        {{ toDo.title }}
+      </mat-checkbox>
+    </mat-card-title>
+    <mat-card-content *ngIf="toDo.description">
+      {{ toDo.description }}
+    </mat-card-content>
+  </ng-template>
+  <!-- Editing interface -->
+  <ng-template #editing>
+    <mat-card-title>
+      <mat-checkbox [checked]="toDo.done" disabled></mat-checkbox>
+      <mat-form-field id="title-form-field">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="toDo.title" type="text" />
+      </mat-form-field>
+    </mat-card-title>
+    <mat-form-field id="description-form-field">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        cdkTextareaAutosize
+        [(ngModel)]="toDo.description"
+      ></textarea>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </ng-template>
+
+  <!-- Edit button -->
   <button
     *ngIf="editable"
     mat-icon-button
@@ -15,8 +41,5 @@
     (click)="onEdit()"
   >
     <mat-icon aria-hidden="false">edit</mat-icon>
-  </button>
-  <button *ngIf="active" mat-raised-button color="primary" (click)="onSave()">
-    Save
   </button>
 </mat-card>

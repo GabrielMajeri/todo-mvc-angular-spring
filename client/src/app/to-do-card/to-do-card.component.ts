@@ -7,7 +7,7 @@ import { ToDo } from '../to-do';
   styleUrls: ['./to-do-card.component.css'],
 })
 export class ToDoCardComponent {
-  @Input() toDo: ToDo = { name: '', description: '', done: false };
+  @Input() toDo: ToDo = { title: '', description: '', done: false };
   @Input() editable: boolean = false;
   @Input() active: boolean = false;
 

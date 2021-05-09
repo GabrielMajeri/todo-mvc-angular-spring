@@ -18,12 +18,12 @@ export class ToDoListComponent implements OnInit {
   }
 
   onEdit(index: number): void {
-    console.log(`Editing ${index}`);
+    console.log(`Editing to do ${this.toDos[index].id}`);
     this.activeToDoIndex = index;
   }
 
   onSave(toDo: ToDo): void {
-    console.log(`Saving ${toDo.id}`);
+    console.log(`Saving to do ${toDo.id}`);
     this.activeToDoIndex = undefined;
   }
 }

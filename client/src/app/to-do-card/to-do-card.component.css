@@ -18,3 +18,18 @@ button.edit {
   top: 8px;
   right: 8px;
 }
+
+.active mat-card-title {
+  display: flex;
+
+  align-items: baseline;
+}
+
+.active #title-form-field {
+  margin-left: 8px;
+  flex: 1;
+}
+
+.active #description-form-field {
+  width: 100%;
+}
