@@ -32,14 +32,14 @@
     </div>
   </ng-template>
 
-  <!-- Edit button -->
-  <button
-    *ngIf="editable"
-    mat-icon-button
-    aria-label="Edit to do"
-    class="edit"
-    (click)="onEdit()"
-  >
-    <mat-icon aria-hidden="false">edit</mat-icon>
-  </button>
+  <div *ngIf="editable" class="buttons">
+    <!-- Edit button -->
+    <button mat-icon-button aria-label="Edit to do" (click)="onEdit()">
+      <mat-icon aria-hidden="false">edit</mat-icon>
+    </button>
+    <!-- Delete button -->
+    <button mat-icon-button aria-label="Delete to do" (click)="onDelete()">
+      <mat-icon aria-hidden="false">delete</mat-icon>
+    </button>
+  </div>
 </mat-card>

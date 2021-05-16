@@ -12,10 +12,15 @@ export class ToDoCardComponent {
   @Input() active: boolean = false;
 
   @Output() edit = new EventEmitter();
+  @Output() delete = new EventEmitter();
   @Output() save = new EventEmitter<ToDo>();
 
   onEdit() {
     this.edit.emit(null);
+  }
+
+  onDelete() {
+    this.delete.emit(null);
   }
 
   onSave() {

@@ -4,5 +4,6 @@
   [editable]="activeToDoIndex === undefined"
   [active]="activeToDoIndex === i"
   (edit)="onEdit(i)"
+  (delete)="onDelete(i)"
   (save)="onSave($event)"
 ></app-to-do-card>

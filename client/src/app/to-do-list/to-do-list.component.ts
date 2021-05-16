@@ -22,6 +22,11 @@ export class ToDoListComponent implements OnInit {
     this.activeToDoIndex = index;
   }
 
+  onDelete(index: number): void {
+    console.log(`Deleting to do ${this.toDos[index].id}`);
+    this.toDos.splice(index, 1);
+  }
+
   onSave(toDo: ToDo): void {
     console.log(`Saving to do ${toDo.id}`);
     this.activeToDoIndex = undefined;
