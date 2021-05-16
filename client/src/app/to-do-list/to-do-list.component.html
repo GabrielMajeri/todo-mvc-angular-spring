@@ -8,3 +8,14 @@
   (save)="onSave($event)"
   (cancel)="onCancel()"
 ></app-to-do-card>
+<div class="add-button-container">
+  <button
+    mat-fab
+    color="primary"
+    aria-label="Add new to do"
+    (click)="onAdd()"
+    [disabled]="activeToDoIndex !== undefined"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

@@ -35,4 +35,15 @@ export class ToDoListComponent implements OnInit {
   onCancel(): void {
     this.activeToDoIndex = undefined;
   }
+
+  onAdd(): void {
+    const lastId = this.toDos[-1]?.id || 0;
+    const newLength = this.toDos.push({
+      id: lastId + 1,
+      title: '',
+      description: '',
+      done: false,
+    });
+    this.activeToDoIndex = newLength - 1;
+  }
 }
