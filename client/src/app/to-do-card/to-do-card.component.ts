@@ -15,6 +15,7 @@ export class ToDoCardComponent {
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
   @Output() save = new EventEmitter<ToDo>();
+  @Output() cancel = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}
 
@@ -34,6 +35,10 @@ export class ToDoCardComponent {
 
   onSave() {
     this.save.emit(this.toDo);
+  }
+
+  onCancel() {
+    this.cancel.emit(null);
   }
 }
 

@@ -31,4 +31,8 @@ export class ToDoListComponent implements OnInit {
     console.log(`Saving to do ${toDo.id}`);
     this.activeToDoIndex = undefined;
   }
+
+  onCancel(): void {
+    this.activeToDoIndex = undefined;
+  }
 }
