@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import { ToDo } from './to-do';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToDoService {
-  getToDos(): ToDo[] {
-    return [
-      {
-        id: 1,
-        title: 'Do something',
-        description: 'You must do something',
-        done: false,
-      },
-      { id: 2, title: 'Refactor code', description: '', done: true },
-      {
-        id: 3,
-        title: 'Finish homework',
-        description: 'It has to be done',
-        done: false,
-      },
-    ];
+  constructor(private http: HttpClient) {}
+
+  get(): Observable<ToDo[]> {
+    return this.http.get<ToDo[]>('/api/todos');
+  }
+
+  create(): Observable<ToDo> {
+    return this.http.post<ToDo>('/api/todos', { title: '' });
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`/api/todos/${id}`);
+  }
+
+  update(toDo: ToDo): Observable<any> {
+    return this.http.post(`/api/todos`, toDo);
   }
 }

@@ -14,7 +14,13 @@ export class ToDoListComponent implements OnInit {
   constructor(private toDoService: ToDoService) {}
 
   ngOnInit(): void {
-    this.toDos = this.toDoService.getToDos();
+    this.loadToDos();
+  }
+
+  loadToDos() {
+    this.toDoService.get().subscribe((toDos) => {
+      this.toDos = toDos;
+    });
   }
 
   onEdit(index: number): void {
@@ -23,13 +29,18 @@ export class ToDoListComponent implements OnInit {
   }
 
   onDelete(index: number): void {
-    console.log(`Deleting to do ${this.toDos[index].id}`);
-    this.toDos.splice(index, 1);
+    const id = this.toDos[index].id!;
+    console.log(`Deleting to do ${id}`);
+    this.toDoService.delete(id).subscribe(() => {
+      this.loadToDos();
+    });
   }
 
   onSave(toDo: ToDo): void {
     console.log(`Saving to do ${toDo.id}`);
-    this.activeToDoIndex = undefined;
+    this.toDoService.update(toDo).subscribe(() => {
+      this.activeToDoIndex = undefined;
+    });
   }
 
   onCancel(): void {
@@ -37,13 +48,9 @@ export class ToDoListComponent implements OnInit {
   }
 
   onAdd(): void {
-    const lastId = this.toDos[-1]?.id || 0;
-    const newLength = this.toDos.push({
-      id: lastId + 1,
-      title: '',
-      description: '',
-      done: false,
+    this.toDoService.create().subscribe((newToDo) => {
+      this.toDos.push(newToDo);
+      this.activeToDoIndex = this.toDos.length - 1;
     });
-    this.activeToDoIndex = newLength - 1;
   }
 }

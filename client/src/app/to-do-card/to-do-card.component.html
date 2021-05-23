@@ -2,7 +2,11 @@
   <!-- Read-only display interface -->
   <ng-template [ngIf]="!active" [ngIfElse]="editing">
     <mat-card-title>
-      <mat-checkbox [(ngModel)]="toDo.done" [disabled]="!editable">
+      <mat-checkbox
+        [(ngModel)]="toDo.done"
+        (change)="onSave()"
+        [disabled]="!editable"
+      >
         {{ toDo.title }}
       </mat-checkbox>
     </mat-card-title>

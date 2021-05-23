@@ -20,83 +20,65 @@ class ToDoResourceTests(@Autowired val mockMvc: MockMvc,
 
     @Test
     fun `root returns list of to dos`() {
-        val toDo1 = ToDo(id = 1, text = "Test description")
-        val toDo2 = ToDo(id = 2, text = "Another to do text")
+        val toDo1 = ToDo(id = 1, title = "To do 1", description = "Test description")
+        val toDo2 = ToDo(id = 2, title = "To do 2", description = "Another to do text")
         every { toDoRepository.findAll() } returns listOf(toDo1, toDo2)
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/todos"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$[0].text").value(toDo1.text))
-            .andExpect(jsonPath("$[1].text").value(toDo2.text))
+            .andExpect(jsonPath("$[0].description").value(toDo1.description))
+            .andExpect(jsonPath("$[1].description").value(toDo2.description))
     }
 
     @Test
     fun `can create to dos`() {
-        val toDo = ToDo(text = "Random description")
+        val toDo = ToDo(title = "Random to do")
         every { toDoRepository.save(toDo) } returns toDo.copy(id = 1)
         val toDoJson = objectMapper.writeValueAsBytes(toDo)
-        mockMvc.perform(post("/").content(toDoJson).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/todos").content(toDoJson).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(1))
-            .andExpect(jsonPath("$.text").value(toDo.text))
+            .andExpect(jsonPath("$.title").value(toDo.title))
     }
 
     @Test
     fun `can get to do by ID`() {
-        val toDo = ToDo(id = 1, text = "Some text")
+        val toDo = ToDo(id = 1, title = "Some to do")
         every { toDoRepository.findById(toDo.id!!) } returns Optional.of(toDo)
-        mockMvc.perform(get("/{id}", toDo.id))
+        mockMvc.perform(get("/todos/{id}", toDo.id))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(toDo.id))
-            .andExpect(jsonPath("$.text").value(toDo.text))
+            .andExpect(jsonPath("$.title").value(toDo.title))
     }
 
     @Test
     fun `can update to do`() {
-        val toDo = ToDo(id = 1, text = "Original text")
-        val newText = "Some new to do text"
-        val newToDo = toDo.copy(text = newText)
-        every { toDoRepository.findById(toDo.id!!) } returns Optional.of(toDo)
+        val toDo = ToDo(id = 1, title = "Original text", description = "Test to do")
+        val newTitle = "Some new to do title"
+        val newToDo = toDo.copy(title = newTitle)
+        val newToDoJson = objectMapper.writeValueAsBytes(newToDo)
         every { toDoRepository.save(newToDo) } returns newToDo
-        mockMvc.perform(put("/{id}", toDo.id)
-                .content("{ \"text\": \"$newText\" }")
+        mockMvc.perform(post("/todos")
+                .content(newToDoJson)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
     }
 
     @Test
-    fun `cannot update to do's ID`() {
-        mockMvc.perform(put("/{id}", 1)
-                .content("{ \"id\": 50, \"text\": \"Some new text\" }")
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest)
-        verify { toDoRepository.save(any()) wasNot Called }
-    }
-
-    @Test
-    fun `cannot update nonexistent to do`() {
-        every { toDoRepository.findById(any()) } returns Optional.empty()
-        mockMvc.perform(put("/{id}", 1)
-                .content("{ \"text\": \"Some text\" }")
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound)
-    }
-
-    @Test
     fun `can delete to do`() {
-        val toDo = ToDo(id = 1, text = "To be deleted")
+        val toDo = ToDo(id = 1, title = "To be deleted")
         every { toDoRepository.findById(toDo.id!!) } returns Optional.of(toDo)
         every { toDoRepository.delete(toDo) } just Runs
-        mockMvc.perform(delete("/{id}", 1))
+        mockMvc.perform(delete("/todos/{id}", 1))
             .andExpect(status().isOk)
     }
 
     @Test
     fun `cannot delete nonexistent to do`() {
         every { toDoRepository.findById(any()) } returns Optional.empty()
-        mockMvc.perform(delete("/{id}", 1))
+        mockMvc.perform(delete("/todos/{id}", 1))
             .andExpect(status().isNotFound)
     }
 }
